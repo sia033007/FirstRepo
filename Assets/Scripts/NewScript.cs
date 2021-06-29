@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.AI;
-
+using UnityEngine.UI;
 public class NewScript : MonoBehaviour
 {
+    public InputField username;
+    public InputField password;
+    public int score;
     public NavMeshAgent agent;
     // Start is called before the first frame update
     void Start()
@@ -48,6 +51,20 @@ public class NewScript : MonoBehaviour
             AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(request);
             var prefab = bundle.LoadAsset("Player");
             GameObject character = Instantiate(prefab,transform.position,Quaternion.identity)as GameObject;
+        }
+    }
+    IEnumerator Login()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("Username",username.text);
+        form.AddField("Password",password.text);
+        UnityWebRequest request = UnityWebRequest.Post("",form);
+        yield return request.SendWebRequest();
+
+        if(request.downloadHandler.text[0]=='0')
+        {
+            Debug.Log("Successfully logged in!");
+            score = int.Parse(request.downloadHandler.text.Split('\t')[1]);
         }
     }
 }
