@@ -6,11 +6,15 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 public class NewScript : MonoBehaviour
 {
+    public static NewScript instance;
     public InputField username;
     public InputField password;
     public int score;
     public NavMeshAgent agent;
     // Start is called before the first frame update
+    private void Awake() {
+        instance = this;
+    }
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
