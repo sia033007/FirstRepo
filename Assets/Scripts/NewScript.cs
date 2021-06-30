@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using System;
 public class NewScript : MonoBehaviour
 {
+    public static event Action OnMousePressed;
     public static NewScript instance;
     public InputField username;
     public InputField password;
@@ -70,6 +72,10 @@ public class NewScript : MonoBehaviour
             Debug.Log("Successfully logged in!");
             score = int.Parse(request.downloadHandler.text.Split('\t')[1]);
         }
+    }
+    private void OnMouseDown() {
+        OnMousePressed?.Invoke();
+        
     }
 }
 public class Player
